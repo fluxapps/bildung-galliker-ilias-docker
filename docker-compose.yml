@@ -2,7 +2,7 @@ services:
   ilias:
     environment:
       - ILIAS_LUCENE_SEARCH=true
-      - ILIAS_DATABASE_HOST=10.100.21.109
+      - ILIAS_DATABASE_HOST=10.100.21.20
       - ILIAS_DATABASE_USER=ilias
       - ILIAS_DATABASE_DATABASE=ilias
       - ILIAS_DATABASE_PASSWORD_FILE=/run/secrets/database_ilias_password
@@ -35,7 +35,7 @@ services:
       - ilias
     image: bildung-galliker-ilias-docker/nginx:2023-01-12-1
     ports:
-      - 10.100.9.55:80:80
+      - 10.100.21.109:80:80
     volumes:
       - ../iliasdata-web:/var/iliasdata/web:ro
 secrets:
