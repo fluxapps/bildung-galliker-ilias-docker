@@ -1,0 +1,49 @@
+services:
+  ilias:
+    environment:
+      - ILIAS_LUCENE_SEARCH=true
+      - ILIAS_DATABASE_HOST=10.100.21.109
+      - ILIAS_DATABASE_USER=ilias
+      - ILIAS_DATABASE_DATABASE=ilias
+      - ILIAS_DATABASE_PASSWORD_FILE=/run/secrets/database_ilias_password
+      - ILIAS_HTTP_PATH=https://bildung.galliker.ch
+      - ILIAS_ROOT_USER_PASSWORD_FILE=/run/secrets/ilias_root_password
+      - ILIAS_SYSTEMFOLDER_CONTACT_FIRSTNAME=fluxlabs
+      - ILIAS_SYSTEMFOLDER_CONTACT_LASTNAME=ag
+      - ILIAS_SYSTEMFOLDER_CONTACT_EMAIL=support@fluxlabs.ch
+      - ILIAS_SMTP_HOST=mail.infomaniak.com
+      - ILIAS_SMTP_PORT=465
+      - ILIAS_SMTP_ENCRYPTION=ssl
+      - ILIAS_SMTP_USER_FILE=/run/secrets/ilias_smtp_user
+      - ILIAS_SMTP_PASSWORD_FILE=/run/secrets/ilias_smtp_password
+      - ILIAS_LANGUAGE_DEFAULT_LANGUAGE=de
+      - ILIAS_LANGUAGE_INSTALL_LANGUAGES=en de fr pt sk
+      - ILIAS_HTTP_HTTPS_AUTODETECTION_HEADER_NAME=X-Forwarded-Proto
+      - ILIAS_HTTP_HTTPS_AUTODETECTION_HEADER_VALUE=https
+    image: bildung-galliker-ilias-docker/ilias:2023-01-12-1
+    secrets:
+      - database_ilias_password
+      - ilias_root_password
+      - ilias_smtp_user
+      - ilias_smtp_password
+    volumes:
+      - ../iliasdata-web:/var/iliasdata/web
+      - ../iliasdata:/var/iliasdata
+      - ../log:/var/log/ilias
+  nginx:
+    depends_on:
+      - ilias
+    image: bildung-galliker-ilias-docker/nginx:2023-01-12-1
+    ports:
+      - 10.100.9.55:80:80
+    volumes:
+      - ../iliasdata-web:/var/iliasdata/web:ro
+secrets:
+  ilias_root_password:
+    file: "../secrets/ilias_root_password"
+  database_ilias_password:
+    file: "../secrets/database_ilias_password"
+  ilias_smtp_user:
+    file: "../secrets/ilias_smtp_user"
+  ilias_smtp_password:
+    file: "../secrets/ilias_smtp_password"
