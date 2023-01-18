@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns="http://www.w3.org" version="0.1" name="skin_medi_ilias_7">
+  <style id="skin_galliker_ilias_7" name="skin_galliker_ilias_7" image_directory="images" css_file="skin_galliker_ilias_7" sound_directory="sound" font_directory="fonts"/>
+</template>
