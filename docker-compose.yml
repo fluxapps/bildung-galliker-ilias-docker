@@ -20,7 +20,7 @@ services:
       - ILIAS_LANGUAGE_INSTALL_LANGUAGES=en de fr pt sk
       - ILIAS_HTTP_HTTPS_AUTODETECTION_HEADER_NAME=X-Forwarded-Proto
       - ILIAS_HTTP_HTTPS_AUTODETECTION_HEADER_VALUE=https
-    image: bildung-galliker-ilias-docker/ilias:2023-01-19-1
+    image: bildung-galliker-ilias-docker/ilias:2023-01-19-2
     secrets:
       - database_ilias_password
       - ilias_root_password
@@ -33,7 +33,7 @@ services:
   nginx:
     depends_on:
       - ilias
-    image: bildung-galliker-ilias-docker/nginx:2023-01-19-1
+    image: bildung-galliker-ilias-docker/nginx:2023-01-19-2
     ports:
       - 10.100.21.109:80:80
     volumes:
