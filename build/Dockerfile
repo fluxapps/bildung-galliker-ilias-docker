@@ -1,18 +1,15 @@
 # syntax=docker/dockerfile:1
 FROM fluxfw/flux-ilias-ilias-base:php7.4 AS ilias
+RUN apk add --no-cache openjdk8-jre
 RUN /flux-ilias-ilias-base/bin/install-ilias-core.sh 7.17
 
-# Setup java 8 in ilias container because the certificate plugin generates the certificates via jasper reports.
-RUN apk add --no-cache libretls musl-locales musl-locales-lang tzdata zlib fontconfig ttf-dejavu \
-    && rm -rf /var/cache/apk/*
-ENV JAVA_HOME=/opt/java/openjdk
-ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
+# flux-ilias-rest
+RUN /flux-ilias-ilias-base/bin/install-flux-ilias-rest-api.sh v2023-01-03-1
+RUN /flux-ilias-ilias-base/bin/install-flux-ilias-rest-helper-plugin.sh v2022-12-12-1
+RUN /flux-ilias-ilias-base/bin/install-flux-ilias-rest-object-helper-plugin.sh v2022-12-12-1
 
-COPY --from=eclipse-temurin:8u332-b09-jre-alpine $JAVA_HOME $JAVA_HOME
-ENV PATH="${JAVA_HOME}/bin:${PATH}"
-
+# Galliker Skin
 COPY ./skin_galliker_ilias_7 /var/www/html/Customizing/global/skin/skin_galliker_ilias_7
-
 # Plugin UserTakeOver
 RUN /flux-ilias-ilias-base/bin/install-archive.sh https://github.com/srsolutionsag/UserTakeOver/archive/aefb7b18790e60e748bb4726ab116fe64b2a48cc.tar.gz /var/www/html/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/UserTakeOver
 # Plugin SrLearningProgressPDBlock
@@ -25,3 +22,4 @@ RUN /flux-ilias-ilias-base/bin/install-archive.sh https://github.com/fluxapps/Ce
 
 FROM fluxfw/flux-ilias-nginx-base:latest AS nginx
 COPY --from=ilias /var/www/html /var/www/html
+RUN /flux-ilias-nginx-base/bin/install-flux-ilias-rest-api.sh
