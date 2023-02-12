@@ -1,0 +1,14 @@
+config_configuration#:#Konfiguration
+config_configuration_saved#:#Konfiguration gespeichert
+config_save#:#Speichern
+config_frm_title#:#IQSoft Konfiguration
+config_saved_successfully#:#Änderungen erfolgreich gespeichert.
+config_retry_info#:#Versuch abgeschlossen, erfolgreich übermittelt: %d, fehlgeschlagen: %d
+base_url#:#Basis-URL
+client_id#:#Client-ID
+client_secret#:#Client-Secret
+username#:#Benutzername
+password#:#Passwort
+failed_transmissions_warning#:#Es gibt %d fehlgeschlagene Übertragung(en) von Zertifikaten. Klicken Sie %s für mehr Informationen oder starten Sie manuell einen neuen Versuch zur Übertragung: %s
+retry#:#Erneut Versuchen
+here#:#hier

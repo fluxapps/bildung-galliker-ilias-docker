@@ -1,16 +1,16 @@
 services:
   ilias:
     environment:
-      - ILIAS_LUCENE_SEARCH=true
+      - ILIAS_LUCENE_SEARCH=false
       - ILIAS_DATABASE_HOST=10.100.21.20
       - ILIAS_DATABASE_USER=ilias
       - ILIAS_DATABASE_DATABASE=ilias
       - ILIAS_DATABASE_PASSWORD_FILE=/run/secrets/database_ilias_password
       - ILIAS_HTTP_PATH=https://bildung.galliker.ch
       - ILIAS_ROOT_USER_PASSWORD_FILE=/run/secrets/ilias_root_password
-      - ILIAS_SYSTEMFOLDER_CONTACT_FIRSTNAME=fluxlabs
-      - ILIAS_SYSTEMFOLDER_CONTACT_LASTNAME=ag
-      - ILIAS_SYSTEMFOLDER_CONTACT_EMAIL=support@fluxlabs.ch
+      - ILIAS_SYSTEMFOLDER_CONTACT_FIRSTNAME=Galliker
+      - ILIAS_SYSTEMFOLDER_CONTACT_LASTNAME=Logistics Academy
+      - ILIAS_SYSTEMFOLDER_CONTACT_EMAIL=logisticsacademy@galliker.com
       - ILIAS_SMTP_HOST=mail.infomaniak.com
       - ILIAS_SMTP_PORT=465
       - ILIAS_SMTP_ENCRYPTION=ssl
@@ -20,24 +20,50 @@ services:
       - ILIAS_LANGUAGE_INSTALL_LANGUAGES=en de fr pt sk
       - ILIAS_HTTP_HTTPS_AUTODETECTION_HEADER_NAME=X-Forwarded-Proto
       - ILIAS_HTTP_HTTPS_AUTODETECTION_HEADER_VALUE=https
-    image: bildung-galliker-ilias-docker/ilias:2023-01-19-2
+      - ILIAS_PHP_POST_MAX_SIZE=1024M
+      - ILIAS_PHP_UPLOAD_MAX_SIZE=1024M
+    image: bildung-galliker-ilias-docker/ilias:2023-02-12-1
     secrets:
       - database_ilias_password
       - ilias_root_password
       - ilias_smtp_user
       - ilias_smtp_password
     volumes:
+      - ../cert_keys:/var/iliasdata/default/cert_keys
+      - ../origins:/var/www/html/Customizing/origins
       - ../iliasdata-web:/var/iliasdata/web
       - ../iliasdata:/var/iliasdata
+      - ../imports:/var/imports
       - ../log:/var/log/ilias
   nginx:
     depends_on:
       - ilias
-    image: bildung-galliker-ilias-docker/nginx:2023-01-19-2
+    image: bildung-galliker-ilias-docker/nginx:2023-02-12-1
+    environment:
+      - ILIAS_NGINX_CLIENT_MAX_BODY_SIZE=1024M
     ports:
       - 10.100.21.109:80:80
     volumes:
       - ../iliasdata-web:/var/iliasdata/web:ro
+  cron:
+    depends_on:
+      - ilias
+    entrypoint: /flux-ilias-ilias-base/bin/cron.sh
+    init: true
+    environment:
+      - ILIAS_CRON_USER_PASSWORD_FILE=/run/secrets/ilias_cron_password
+      - ILIAS_ROOT_USER_PASSWORD_FILE=/run/secrets/ilias_root_password
+    image: bildung-galliker-ilias-docker/ilias:2023-02-12-1
+    secrets:
+      - ilias_cron_password
+      - ilias_root_password
+    volumes:
+      - ../cert_keys:/var/iliasdata/default/cert_keys
+      - ../origins:/var/www/html/Customizing/origins
+      - ../iliasdata-web:/var/iliasdata/web
+      - ../iliasdata:/var/iliasdata
+      - ../imports:/var/imports
+      - ../log:/var/log/ilias
 secrets:
   ilias_root_password:
     file: "../secrets/ilias_root_password"
@@ -47,3 +73,5 @@ secrets:
     file: "../secrets/ilias_smtp_user"
   ilias_smtp_password:
     file: "../secrets/ilias_smtp_password"
+  ilias_cron_password:
+    file: "../secrets/ilias_root_password"

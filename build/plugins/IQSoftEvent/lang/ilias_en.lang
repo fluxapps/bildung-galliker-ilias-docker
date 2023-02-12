@@ -1,0 +1,14 @@
+config_configuration#:#Configuration
+config_configuration_saved#:#Configuration saved
+config_save#:#Save
+config_frm_title#:#IQSoft Configuration
+config_saved_successfully#:#Changes saved successfully.
+config_retry_info#:#Retry finished, success: %d, failed: %d
+base_url#:#Base URL
+client_id#:#Client ID
+client_secret#:#Client Secret
+username#:#Username
+password#:#Password
+failed_transmissions_warning#:#There are %d failed transmission(s) of certificates. Click %s for more information or retry the transmission: %s
+retry#:#Retry
+here#:#here

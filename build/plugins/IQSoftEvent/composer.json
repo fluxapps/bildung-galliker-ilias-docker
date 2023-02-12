@@ -1,0 +1,49 @@
+{
+  "name": "fluxlabs/iqsoftevent",
+  "description": "Short description",
+  "type": "project",
+  "keywords": [
+    "ILIAS",
+    "Plugin"
+  ],
+  "authors": [
+    {
+      "name": "fluxlabs AG",
+      "email": "support@fluxlabs.ch",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "support@fluxlabs.ch"
+  },
+  "require": {
+    "php": ">=7.0",
+    "srag/activerecordconfig": "0.20.7",
+    "srag/custominputguis": "0.34.9",
+    "srag/dic": "0.19.4",
+    "srag/librariesnamespacechanger": "0.15.4 ",
+    "srag/removeplugindataconfirm": ">=0.1.0",
+    "league/oauth2-client": "^2.6",
+    "guzzlehttp/guzzle":  "6.5.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "fluxlabs\\Plugins\\IQSoftEvent\\": "src/"
+    },
+    "classmap": [
+      "classes/",
+      "src/Config/class.ConfigCtrl.php"
+    ]
+  },
+  "config": {
+    "classmap-authoritative": true,
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "scripts": {
+    "pre-autoload-dump": [
+      "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces",
+      "srag\\LibrariesNamespaceChanger\\PHP72Backport::PHP72Backport"
+    ]
+  }
+}
