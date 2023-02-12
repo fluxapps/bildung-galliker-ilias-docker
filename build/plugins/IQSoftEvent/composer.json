@@ -24,7 +24,7 @@
     "srag/librariesnamespacechanger": "0.15.4 ",
     "srag/removeplugindataconfirm": ">=0.1.0",
     "league/oauth2-client": "^2.6",
-    "guzzlehttp/guzzle":  "6.5.5"
+    "guzzlehttp/guzzle":  "6.5.8"
   },
   "autoload": {
     "psr-4": {
