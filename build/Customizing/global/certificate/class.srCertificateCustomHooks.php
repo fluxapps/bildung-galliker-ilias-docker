@@ -8,8 +8,8 @@ use Da\QrCode\QrCode;
  */
 class srCertificateCustomHooks extends srCertificateHooks {
 
-    const MD_ID_COURSE_NR = 2;
-    const MD_ID_COURSE_OBJECTIVES = 7;
+    const MD_ID_COURSE_NR = 1;
+    const MD_ID_COURSE_OBJECTIVES = 4;
 
     /**
      * @param srCertificate $cert
@@ -17,7 +17,6 @@ class srCertificateCustomHooks extends srCertificateHooks {
      * @return array
      */
     public function processPlaceholders(srCertificate $cert, array $placeholders) {
-        return [];
         // define a different (custom) qr link
 
         $digital_signature = $placeholders['DIGITAL_SIGNATURE'];
